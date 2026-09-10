@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Внедрение управленческого учета под ключ | Елена Купцова</title>
+    
+    <!-- Подключение шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Подключение иконок Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Подключение Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Настройка палитры по референсу (Лаванда + Темно-фиолетовый) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f8f6fc',   // Основной очень светлый фон
+                            100: '#e9dff7',  // Светло-лавандовый (как карточки на референсе)
+                            200: '#d7c2f0',  // Лавандовый при наведении
+                            500: '#8c5fd3',  // Акцентный фиолетовый (иконки, кнопки)
+                            800: '#46326e',  // Темный фиолетовый 
+                            900: '#2d1b4e',  // Самый темный фиолетовый (текст, контрастные блоки)
+                        },
+                    },
+                    boxShadow: {
+                        'bento': '0 4px 24px -4px rgba(45, 27, 78, 0.08)',
+                        'bento-hover': '0 12px 32px -4px rgba(45, 27, 78, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f8f6fc;
+            color: #2d1b4e;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Анимация появления блоков при скролле */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Скрытие скроллбара для слайдера */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-brand-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-white font-bold text-2xl shadow-sm">
+                        <i class="ph ph-chart-line-up"></i>
+                    </div>
+                    <div>
+                        <span class="block font-bold text-xl text-brand-900 tracking-tight leading-none">Архитектор Финансов</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <a href="tel:+74950000000" class="hidden md:block font-medium text-brand-900 hover:text-brand-500 transition-colors">
+                        +7 (495) 000-00-00
+                    </a>
+                    <a href="https://t.me/ElenaK177" target="_blank" rel="noopener noreferrer" class="bg-brand-100 text-brand-900 px-5 py-2.5 rounded-xl font-semibold hover:bg-brand-200 transition-all text-sm sm:text-base">
+                        Связаться со мной
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        
+        <section class="relative pt-12 pb-16 lg:pt-20 lg:pb-24 overflow-hidden bg-brand-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                    
+                    <div class="reveal">
+                        <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-brand-900 leading-[1.1] tracking-tight mb-6 uppercase">
+                            Навожу порядок<br>в <span class="text-brand-500">финансах</span>
+                        </h1>
+                        <p class="text-lg text-brand-900/80 mb-8 max-w-lg leading-relaxed font-medium">
+                            Покажу реальную прибыль вашего бизнеса, найду точки роста и спасу от кассовых разрывов. Оцифрую процессы под ключ.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-3 mb-10">
+                            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-900 bg-brand-100 px-4 py-2.5 rounded-full">
+                                <i class="ph ph-shield-check text-brand-500 text-lg"></i> Без разрывов
+                            </div>
+                            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-900 bg-brand-100 px-4 py-2.5 rounded-full">
+                                <i class="ph ph-rocket-launch text-brand-500 text-lg"></i> Быстрый запуск
+                            </div>
+                            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-900 bg-brand-100 px-4 py-2.5 rounded-full">
+                                <i class="ph ph-target text-brand-500 text-lg"></i> Под ключ
+                            </div>
+                        </div>
+                        
+                        <a href="https://t.me/ElenaK177" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-brand-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-800 transition-all shadow-lg text-lg">
+                            Записаться на консультацию <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="relative reveal lg:ml-auto w-full max-w-md mx-auto lg:max-w-full">
+                        <div class="absolute inset-0 bg-brand-100 rounded-[2.5rem] transform rotate-3 scale-105 -z-10 shadow-inner"></div>
+                        
+                        <div class="relative rounded-[2.5rem] overflow-hidden shadow-2xl bg-brand-900 flex flex-col justify-end h-[500px] sm:h-[600px]">
+                            <!-- Фотография эксперта -->
+                            <img src="https://i.yapx.ru/eMA2U.png" alt="Елена Купцова - Финансовый эксперт" class="absolute inset-0 w-full h-full object-cover object-top">
+                            <div class="absolute inset-0 bg-gradient-to-t from-brand-900 via-brand-900/40 to-transparent"></div>
+                            
+                            <!-- Визитка эксперта поверх фото -->
+                            <div class="relative z-10 p-6 sm:p-8">
+                                <div class="bg-brand-900/80 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-lg">
+                                    <h3 class="text-white font-extrabold text-2xl sm:text-3xl mb-1">Елена Купцова</h3>
+                                    <p class="text-brand-100 font-semibold text-sm mb-5 uppercase tracking-wider">Независимый финдиректор</p>
+                                    
+                                    <ul class="space-y-3">
+                                        <li class="flex items-start gap-3 text-white text-sm sm:text-base font-medium leading-tight">
+                                            <i class="ph ph-check-circle text-brand-500 text-xl shrink-0"></i>
+                                            <span>Опыт работы в финансах <span class="text-brand-100 font-bold">более 17 лет</span></span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-white text-sm sm:text-base font-medium leading-tight">
+                                            <i class="ph ph-check-circle text-brand-500 text-xl shrink-0"></i>
+                                            <span>Опыт работы Главным бухгалтером <span class="text-brand-100 font-bold">7 лет</span></span>
+                                        </li>
+                                        <li class="flex items-start gap-3 text-white text-sm sm:text-base font-medium leading-tight">
+                                            <i class="ph ph-chat-centered-text text-brand-500 text-xl shrink-0"></i>
+                                            <span>Говорю <span class="text-brand-100 font-bold">на одном языке</span> с собственником</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white border-t border-brand-100" id="pains">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-900 uppercase">Почему вам это нужно?</h2>
+                    <p class="mt-4 text-brand-900/70 font-medium max-w-2xl mx-auto">Знакомые ситуации, когда отсутствие прозрачных цифр тормозит развитие бизнеса.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+                    <!-- Боль 1 -->
+                    <div class="bg-brand-50 p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-500 text-3xl mb-6 shadow-sm border border-brand-100">
+                            <i class="ph ph-wallet"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-brand-900 mb-3">Деньги есть, а прибыли нет</h3>
+                        <p class="text-brand-900/70 text-sm leading-relaxed">Обороты растут, но абсолютно непонятно, сколько реально зарабатывает компания и сколько можно вывести дивидендов.</p>
+                    </div>
+                    
+                    <!-- Боль 2 -->
+                    <div class="bg-brand-50 p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-500 text-3xl mb-6 shadow-sm border border-brand-100">
+                            <i class="ph ph-trend-down"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-brand-900 mb-3">Регулярные кассовые разрывы</h3>
+                        <p class="text-brand-900/70 text-sm leading-relaxed">Подошел срок платежей, а на счетах пусто. Постоянно нечем платить зарплаты сотрудникам, аренду и налоги.</p>
+                    </div>
+                    
+                    <!-- Боль 3 -->
+                    <div class="bg-brand-50 p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-500 text-3xl mb-6 shadow-sm border border-brand-100">
+                            <i class="ph ph-table"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-brand-900 mb-3">Хаос в таблицах</h3>
+                        <p class="text-brand-900/70 text-sm leading-relaxed">Каждый отдел считает по-своему. Данные из разных источников и отчетов не сходятся, найти концы невозможно.</p>
+                    </div>
+                    
+                    <!-- Боль 4 -->
+                    <div class="bg-brand-50 p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-500 text-3xl mb-6 shadow-sm border border-brand-100">
+                            <i class="ph ph-eye-closed"></i>
+                        </div>
+                        <h3 class="font-bold text-xl text-brand-900 mb-3">Слепое управление</h3>
+                        <p class="text-brand-900/70 text-sm leading-relaxed">Стратегические решения принимаются интуитивно, "на глаз", а не на основе твердых и актуальных исторических данных.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-brand-50 border-t border-brand-100" id="tools">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-900 uppercase">Что я создаю</h2>
+                    <p class="mt-4 text-brand-900/70 font-medium max-w-2xl mx-auto">Главные инструменты финансового контроля для вашего бизнеса</p>
+                </div>
+                
+                <div class="relative reveal group">
+                    <!-- Кнопки управления (Desktop) -->
+                    <button class="prev-btn hidden md:flex absolute top-1/2 -left-4 -translate-y-1/2 w-12 h-12 bg-white rounded-full items-center justify-center text-brand-500 shadow-md border border-brand-100 hover:bg-brand-50 transition-colors z-10 focus:outline-none disabled:opacity-50">
+                        <i class="ph ph-caret-left text-2xl"></i>
+                    </button>
+                    
+                    <button class="next-btn hidden md:flex absolute top-1/2 -right-4 -translate-y-1/2 w-12 h-12 bg-white rounded-full items-center justify-center text-brand-500 shadow-md border border-brand-100 hover:bg-brand-50 transition-colors z-10 focus:outline-none disabled:opacity-50">
+                        <i class="ph ph-caret-right text-2xl"></i>
+                    </button>
+
+                    <!-- Слайдер -->
+                    <div class="tools-slider flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 pb-4">
+                        <!-- Инструмент 1 -->
+                        <div class="snap-start shrink-0 w-[85%] md:w-[calc(50%-12px)] bg-brand-100 p-8 rounded-[2rem] border border-brand-200 shadow-sm transition-all h-full">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-brand-500 text-2xl shadow-sm"><i class="ph ph-chart-line-up"></i></div>
+                                <h3 class="font-bold text-xl text-brand-900">Отчет о прибылях (ОПиУ)</h3>
+                            </div>
+                            <p class="text-brand-900/80 text-sm leading-relaxed">Покажу реальную рентабельность бизнеса. Вы точно узнаете, сколько зарабатываете чистыми, а какие направления работают в минус.</p>
+                        </div>
+                        
+                        <!-- Инструмент 2 -->
+                        <div class="snap-start shrink-0 w-[85%] md:w-[calc(50%-12px)] bg-white p-8 rounded-[2rem] border border-brand-100 shadow-sm transition-all h-full">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-500 text-2xl border border-brand-100"><i class="ph ph-arrows-left-right"></i></div>
+                                <h3 class="font-bold text-xl text-brand-900">Движение средств (ОДДС)</h3>
+                            </div>
+                            <p class="text-brand-900/80 text-sm leading-relaxed">Контроль денежных потоков и платежный календарь. Соединю банки в одном окне и помогу навсегда забыть про кассовые разрывы.</p>
+                        </div>
+                        
+                        <!-- Инструмент 3 -->
+                        <div class="snap-start shrink-0 w-[85%] md:w-[calc(50%-12px)] bg-white p-8 rounded-[2rem] border border-brand-100 shadow-sm transition-all h-full">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-500 text-2xl border border-brand-100"><i class="ph ph-scales"></i></div>
+                                <h3 class="font-bold text-xl text-brand-900">Управленческий баланс</h3>
+                            </div>
+                            <p class="text-brand-900/80 text-sm leading-relaxed">Спроектирую архитектуру активов и пассивов. Вы увидите, сколько реально стоит ваша компания на сегодняшний день и где заморожены деньги.</p>
+                        </div>
+                        
+                        <!-- Инструмент 4 (Дашборды) -->
+                        <div class="snap-start shrink-0 w-[85%] md:w-[calc(50%-12px)] bg-white p-8 rounded-[2rem] border border-brand-100 shadow-sm transition-all h-full">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center text-brand-500 text-2xl border border-brand-100"><i class="ph ph-presentation-chart"></i></div>
+                                <h3 class="font-bold text-xl text-brand-900">Дашборды и визуализация данных</h3>
+                            </div>
+                            <p class="text-brand-900/80 text-sm leading-relaxed">Все сложные итоги будут выведены в красивые и понятные дашборды. Интерактивные графики покажут ключевые метрики в реальном времени, убирая рутину.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Навигация для мобильных (точки) -->
+                    <div class="flex justify-center gap-2 mt-4 md:hidden dots-container">
+                        <button class="dot w-2 h-2 rounded-full bg-brand-500 transition-colors"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-brand-200 transition-colors"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-brand-200 transition-colors"></button>
+                        <button class="dot w-2 h-2 rounded-full bg-brand-200 transition-colors"></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-brand-900 relative overflow-hidden">
+            <!-- Декоративный паттерн на фоне -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-30"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-brand-100 text-2xl border border-white/20 shadow-inner">
+                        <i class="ph ph-star"></i>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-bold text-white uppercase tracking-wide">Результат для вашего бизнеса</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
+                    <div class="border-l-2 border-brand-500/50 pl-6">
+                        <div class="flex items-baseline gap-1">
+                            <div class="text-5xl md:text-6xl font-extrabold text-white mb-2">6</div>
+                            <div class="text-3xl font-bold text-brand-500">+</div>
+                        </div>
+                        <div class="text-brand-100/80 text-sm uppercase tracking-wider font-semibold">автономных систем<br>успешно внедрено</div>
+                    </div>
+                    <div class="border-l-2 border-brand-500/50 pl-6">
+                        <div class="flex items-baseline gap-1">
+                            <div class="text-5xl md:text-6xl font-extrabold text-white mb-2">40</div>
+                            <div class="text-3xl font-bold text-brand-500">+ млн</div>
+                        </div>
+                        <div class="text-brand-100/80 text-sm uppercase tracking-wider font-semibold">сэкономленных средств<br>для клиентов</div>
+                    </div>
+                    <div class="border-l-2 border-brand-500/50 pl-6">
+                        <div class="text-5xl md:text-6xl font-extrabold text-white mb-2">8 нед</div>
+                        <div class="text-brand-100/80 text-sm uppercase tracking-wider font-semibold">средний срок<br>запуска системы</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white border-b border-brand-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-900 uppercase">Реальные кейсы</h2>
+                    <p class="mt-4 text-brand-900/70 font-medium">Как управленческий учет меняет бизнес на практике</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                    <!-- Кейс 1 -->
+                    <div class="bg-brand-50 p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="inline-block bg-brand-100 text-brand-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-4">E-commerce (Маркетплейсы)</div>
+                        <div class="space-y-4">
+                            <div>
+                                <span class="font-bold text-brand-900 block mb-1"><i class="ph ph-warning-circle text-brand-500 mr-1"></i> Было:</span>
+                                <p class="text-sm text-brand-900/80">Кассовые разрывы из-за заморозки средств в товаре. Отсутствие понимания реальной маржинальности по каждому артикулу с учетом всех скрытых комиссий площадок.</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-brand-900 block mb-1"><i class="ph ph-gear text-brand-500 mr-1"></i> Что было сделано:</span>
+                                <p class="text-sm text-brand-900/80">Внедрение ОПиУ и ОДДС. Автоматизация парсинга отчетов о продажах по API. Разработка точного платежного календаря.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-brand-100 shadow-sm mt-2">
+                                <span class="font-bold text-brand-500 block mb-1"><i class="ph ph-check-circle mr-1"></i> Стало:</span>
+                                <p class="text-sm text-brand-900 font-medium">Выявлено 15% убыточных товаров. Рентабельность бизнеса повышена на 12%. Кассовые разрывы полностью устранены.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Кейс 2 -->
+                    <div class="bg-brand-50 p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all">
+                        <div class="inline-block bg-brand-100 text-brand-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-4">Строительство и Услуги</div>
+                        <div class="space-y-4">
+                            <div>
+                                <span class="font-bold text-brand-900 block mb-1"><i class="ph ph-warning-circle text-brand-500 mr-1"></i> Было:</span>
+                                <p class="text-sm text-brand-900/80">Проекты сдаются, деньги на счета приходят, но по итогу года дивидендов нет. Невозможно отследить прямые затраты по каждому конкретному объекту.</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-brand-900 block mb-1"><i class="ph ph-gear text-brand-500 mr-1"></i> Что было сделано:</span>
+                                <p class="text-sm text-brand-900/80">Постановка проектного учета. Настройка распределения косвенных расходов. Сборка управленческого баланса для оценки реальных активов.</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-brand-100 shadow-sm mt-2">
+                                <span class="font-bold text-brand-500 block mb-1"><i class="ph ph-check-circle mr-1"></i> Стало:</span>
+                                <p class="text-sm text-brand-900 font-medium">Точный расчет чистой прибыли по каждому объекту. Обнаружены «мертвые» долги контрагентов. Собственник регулярно выводит дивиденды.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-brand-50 border-b border-brand-100" id="tariffs">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-brand-900 uppercase">Форматы работы</h2>
+                    <p class="mt-4 text-brand-900/70 font-medium max-w-2xl mx-auto">Выберите подходящий формат. Предлагаю прозрачные условия работы, сроки зависят от специфики ваших процессов.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+                    
+                    <!-- Тариф 1 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all flex flex-col h-full">
+                        <div class="mb-6">
+                            <h3 class="font-bold text-xl text-brand-900 mb-2">Аудит</h3>
+                            <p class="text-brand-900/70 text-sm">текущего финансового учета в компании</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <span class="text-2xl font-extrabold text-brand-900">от 80 т.р.</span>
+                        </div>
+                        
+                        <div class="flex-grow space-y-4 mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Анализ текущей базы и источников данных</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Поиск "узких горлышек" и ошибок</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Карта текущего состояния и план действий</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#cta" class="block w-full text-center bg-brand-50 text-brand-900 font-bold py-4 rounded-xl border border-brand-200 hover:bg-brand-100 transition-colors mt-auto">
+                            Выбрать тариф
+                        </a>
+                    </div>
+
+                    <!-- Тариф 2 -->
+                    <div class="bg-brand-100 p-6 sm:p-8 rounded-[2rem] border-2 border-brand-200 shadow-md hover:shadow-bento-hover transition-all flex flex-col h-full relative">
+                        <div class="absolute -top-4 right-6 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                            Хит
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="font-bold text-xl text-brand-900 mb-2">Базовое внедрение</h3>
+                            <p class="text-brand-900/70 text-sm">Внедрение главных отчетов ОДДС и ОПиУ</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <span class="text-2xl font-extrabold text-brand-900">от 150 т.р.</span>
+                        </div>
+                        
+                        <div class="flex-grow space-y-4 mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Построение архитектуры отчетов под вас</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Автоматизация сбора данных (API/Парсинг)</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Разработка платежного календаря</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#cta" class="block w-full text-center bg-brand-900 text-white font-bold py-4 rounded-xl border-2 border-brand-900 hover:bg-brand-800 transition-colors shadow-lg mt-auto">
+                            Выбрать тариф
+                        </a>
+                    </div>
+
+                    <!-- Тариф 3 -->
+                    <div class="bg-white p-6 sm:p-8 rounded-[2rem] border border-brand-100 hover:shadow-bento transition-all flex flex-col h-full">
+                        <div class="mb-6">
+                            <h3 class="font-bold text-xl text-brand-900 mb-2">Под ключ</h3>
+                            <p class="text-brand-900/70 text-sm">Внедрение всех отчетов (ОПиУ, ОДДС, Баланс)</p>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <span class="text-2xl font-extrabold text-brand-900">от 250 т.р.</span>
+                        </div>
+                        
+                        <div class="flex-grow space-y-4 mb-8">
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Сборка полной финансовой модели</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Разработка интерактивных дашбордов</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-brand-900 text-sm leading-snug">Обучение вас и вашей команды</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#cta" class="block w-full text-center bg-brand-50 text-brand-900 font-bold py-4 rounded-xl border border-brand-200 hover:bg-brand-100 transition-colors mt-auto">
+                            Выбрать тариф
+                        </a>
+                    </div>
+
+                    <!-- Тариф 4 -->
+                    <div class="bg-brand-900 p-6 sm:p-8 rounded-[2rem] shadow-xl transition-all flex flex-col h-full relative overflow-hidden">
+                        <!-- Декоративный элемент фона -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+                        
+                        <div class="mb-6 relative z-10">
+                            <h3 class="font-bold text-xl text-white mb-2">Финдиректор</h3>
+                            <p class="text-brand-100/70 text-sm">Регулярное сопровождение на аутсорсе</p>
+                        </div>
+                        
+                        <div class="mb-8 relative z-10">
+                            <span class="text-2xl font-extrabold text-white">от 70 т.р.<span class="text-sm font-medium text-brand-100/70">/мес</span></span>
+                        </div>
+                        
+                        <div class="flex-grow space-y-4 mb-8 relative z-10">
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check-circle text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-white text-sm leading-snug">Ежемесячный анализ всей отчетности</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check-circle text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-white text-sm leading-snug">Контроль исполнения бюджета</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph ph-check-circle text-brand-500 text-lg shrink-0 mt-0.5"></i>
+                                <span class="text-white text-sm leading-snug">Еженедельные планерки с разбором цифр</span>
+                            </div>
+                        </div>
+                        
+                        <a href="#cta" class="relative z-10 block w-full text-center bg-brand-500 text-white font-bold py-4 rounded-xl hover:bg-brand-400 transition-colors mt-auto">
+                            Выбрать тариф
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-brand-900 mb-10 text-center uppercase reveal">Частые вопросы</h2>
+                
+                <div class="space-y-4 reveal">
+                    <!-- Вопрос 1 -->
+                    <div class="bg-brand-50 rounded-2xl border border-brand-100 overflow-hidden transition-all">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-brand-100/50 transition-colors">
+                            <span class="font-bold text-brand-900">Подойдет ли это для малого бизнеса?</span>
+                            <i class="ph ph-caret-down text-xl text-brand-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-5 text-brand-900/70 hidden text-sm leading-relaxed border-t border-brand-100/50 pt-4">
+                            Абсолютно. Чем раньше вы начнете считать цифры, тем быстрее вырастет компания. Для стартапов и микробизнеса я проектирую легкие модели, которые не требуют больших вложений, но дают полную прозрачность.
+                        </div>
+                    </div>
+
+                    <!-- Вопрос 2 -->
+                    <div class="bg-brand-50 rounded-2xl border border-brand-100 overflow-hidden transition-all">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-brand-100/50 transition-colors">
+                            <span class="font-bold text-brand-900">В каких программах ведется разработка?</span>
+                            <i class="ph ph-caret-down text-xl text-brand-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-5 text-brand-900/70 hidden text-sm leading-relaxed border-t border-brand-100/50 pt-4">
+                            Я работаю с широким стеком под ваши задачи: от 1С (УНФ, ERP) и МойСклад до специализированных сервисов финучета. Также собираю кастомные дашборды для визуализации и связываю базы через API.
+                        </div>
+                    </div>
+
+                    <!-- Вопрос 3 -->
+                    <div class="bg-brand-50 rounded-2xl border border-brand-100 overflow-hidden transition-all">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none hover:bg-brand-100/50 transition-colors">
+                            <span class="font-bold text-brand-900">Кто будет вести учет после внедрения?</span>
+                            <i class="ph ph-caret-down text-xl text-brand-500 transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-5 text-brand-900/70 hidden text-sm leading-relaxed border-t border-brand-100/50 pt-4">
+                            Два варианта. Либо я передаю систему вашему сотруднику и обучаю его правильному внесению данных. Либо вы можете передать ведение учета мне на регулярное сопровождение (тариф Финдир на аутсорсе).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta" class="py-16 pb-24 bg-brand-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-brand-100 border-2 border-brand-200 rounded-[2.5rem] p-2 flex flex-col md:flex-row shadow-xl reveal">
+                    
+                    <div class="flex-1 bg-white rounded-[2rem] p-8 md:p-14 flex flex-col justify-center">
+                        <div class="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center text-brand-500 text-3xl mb-6 shadow-sm border border-brand-200">
+                            <i class="ph ph-arrow-right"></i>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-extrabold text-brand-900 mb-4 uppercase leading-tight">Готовы к новой<br>реальности?</h2>
+                        <p class="text-brand-900/70 mb-8 font-medium text-lg">Обсудим ваш проект, я проведу экспресс-аудит текущей базы и покажу точки роста вашей прибыли.</p>
+                        
+                        <!-- Форма с маской -->
+                        <form id="lead-form" class="space-y-4 w-full max-w-md">
+                            <input type="text" required class="w-full px-6 py-4 rounded-xl border-2 border-brand-100 focus:border-brand-500 focus:ring-0 outline-none transition-colors bg-brand-50 font-medium text-brand-900 placeholder-brand-900/40" placeholder="Ваше имя">
+                            <input type="tel" id="phone-input" required class="w-full px-6 py-4 rounded-xl border-2 border-brand-100 focus:border-brand-500 focus:ring-0 outline-none transition-colors bg-brand-50 font-medium text-brand-900 placeholder-brand-900/40" placeholder="+7 (999) 000-00-00">
+                            
+                            <button type="submit" class="w-full bg-brand-900 text-white font-bold py-5 rounded-xl hover:bg-brand-800 transition-all shadow-lg uppercase tracking-wide mt-2 text-lg">
+                                Консультация для бизнеса
+                            </button>
+                            <p class="text-xs text-brand-900/50 text-center mt-3">Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-900 py-10 text-brand-100/70 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <i class="ph ph-chart-line-up text-3xl text-brand-500"></i>
+                <span class="font-bold text-2xl text-white tracking-tight">Архитектор Финансов</span>
+            </div>
+            
+            <div class="text-sm text-center md:text-right">
+                <a href="#" class="hover:text-white transition-colors block mb-2">Политика конфиденциальности</a>
+                © 2024 Елена Купцова. Все права защищены.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно успешной отправки -->
+    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden bg-brand-900/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-[2rem] p-10 max-w-md w-full text-center shadow-2xl transform scale-95 transition-transform duration-300 border-4 border-brand-100" id="modal-content">
+            <div class="w-24 h-24 bg-brand-100 rounded-full flex items-center justify-center text-brand-500 text-5xl mx-auto mb-6">
+                <i class="ph ph-check-circle"></i>
+            </div>
+            <h3 class="text-3xl font-extrabold text-brand-900 mb-3 uppercase">Заявка принята</h3>
+            <p class="text-brand-900/70 mb-8 font-medium text-lg">Я свяжусь с вами в ближайшее время для обсуждения деталей.</p>
+            <button id="close-modal" class="w-full bg-brand-100 text-brand-900 font-bold py-4 rounded-xl hover:bg-brand-200 transition-colors border border-brand-200 text-lg">
+                Отлично
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Анимация появления блоков при скролле
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // 2. Логика Аккордеона (FAQ)
+            const faqButtons = document.querySelectorAll('.faq-btn');
+            faqButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector('i');
+                    const isHidden = content.classList.contains('hidden');
+                    
+                    faqButtons.forEach(otherBtn => {
+                        otherBtn.nextElementSibling.classList.add('hidden');
+                        otherBtn.querySelector('i').style.transform = 'rotate(0deg)';
+                    });
+                    
+                    if (isHidden) {
+                        content.classList.remove('hidden');
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // 3. Обработка отправки формы
+            const form = document.getElementById('lead-form');
+            const modal = document.getElementById('success-modal');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const btn = form.querySelector('button[type="submit"]');
+                const originalText = btn.innerText;
+                
+                btn.innerText = 'ОТПРАВКА...';
+                btn.disabled = true;
+                btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                    form.reset();
+
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalContent.classList.remove('scale-95');
+                        modalContent.classList.add('scale-100');
+                    }, 10);
+                }, 800);
+            });
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            };
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // 4. Маска для ввода телефона
+            const phoneInput = document.getElementById('phone-input');
+            if (phoneInput) {
+                phoneInput.addEventListener('focus', () => {
+                    if (!phoneInput.value) phoneInput.value = '+7 ';
+                });
+                
+                phoneInput.addEventListener('input', (e) => {
+                    let input = e.target;
+                    let numbers = input.value.replace(/\D/g, ''); 
+                    
+                    if (numbers.length === 0) {
+                        input.value = '';
+                        return;
+                    }
+                    
+                    if (numbers[0] !== '7' && numbers[0] !== '8') {
+                         numbers = '7' + numbers;
+                    } else if (numbers[0] === '8') {
+                         numbers = '7' + numbers.slice(1);
+                    }
+
+                    numbers = numbers.substring(0, 11);
+                    
+                    let formatted = '+7';
+                    if (numbers.length > 1) formatted += ' (' + numbers.substring(1, 4);
+                    if (numbers.length >= 5) formatted += ') ' + numbers.substring(4, 7);
+                    if (numbers.length >= 8) formatted += '-' + numbers.substring(7, 9);
+                    if (numbers.length >= 10) formatted += '-' + numbers.substring(9, 11);
+                    
+                    input.value = formatted;
+                });
+            }
+
+            // 5. Плавный скролл по якорным ссылкам
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // 6. Логика интерактивного слайдера "Что я создаю"
+            const slider = document.querySelector('.tools-slider');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const dots = document.querySelectorAll('.dot');
+
+            if (slider && prevBtn && nextBtn) {
+                // Прокрутка кнопками
+                nextBtn.addEventListener('click', () => {
+                    const cardWidth = slider.querySelector('.snap-start').offsetWidth + 24; // ширина + gap
+                    slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                });
+                
+                prevBtn.addEventListener('click', () => {
+                    const cardWidth = slider.querySelector('.snap-start').offsetWidth + 24;
+                    slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                });
+
+                // Обновление кнопок и точек при скролле
+                slider.addEventListener('scroll', () => {
+                    const scrollLeft = slider.scrollLeft;
+                    const maxScroll = slider.scrollWidth - slider.clientWidth;
+                    const cardWidth = slider.querySelector('.snap-start').offsetWidth;
+                    const index = Math.round(scrollLeft / cardWidth);
+                    
+                    // Управление видимостью кнопок
+                    prevBtn.disabled = scrollLeft <= 0;
+                    nextBtn.disabled = scrollLeft >= maxScroll - 5;
+                    
+                    prevBtn.classList.toggle('opacity-50', scrollLeft <= 0);
+                    nextBtn.classList.toggle('opacity-50', scrollLeft >= maxScroll - 5);
+
+                    // Управление точками
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('bg-brand-500', i === index);
+                        dot.classList.toggle('bg-brand-200', i !== index);
+                    });
+                });
+                
+                // Инициализация состояния кнопок
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-50');
+                
+                // Клик по точкам для мобилок
+                dots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        const cardWidth = slider.querySelector('.snap-start').offsetWidth + 24;
+                        slider.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
